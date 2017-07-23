@@ -6,7 +6,7 @@ import lib.filelib
 
 """
 Add suffix to filename of files at the directory with the extension.
-usage: python add_suffix.py suffix [dir_path] [ext]
+usage: python add_suffix.py [-h] suffix [dir_path] [ext]
 """
 
 parser = argparse.ArgumentParser(

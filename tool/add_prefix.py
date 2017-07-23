@@ -6,7 +6,7 @@ import lib.filelib
 
 """
 Add prefix to filename of files at the directory with the extension.
-usage: python add_prefix.py prefix [dir_path] [ext]
+usage: python add_prefix.py [-h] prefix [dir_path] [ext]
 """
 
 parser = argparse.ArgumentParser(
