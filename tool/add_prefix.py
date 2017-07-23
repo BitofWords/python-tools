@@ -22,4 +22,4 @@ prefix = args.prefix
 dir_path = args.dir_path
 ext = args.ext
 
-lib.filelib.add_prefix_suffix_batch(prefix, '', dir_path, ext)
+lib.filelib.add_prefix_suffix_batch(prefix, '', dir_path, ext, False)
