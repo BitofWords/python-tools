@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
 
 import lib.filelib
@@ -18,9 +17,4 @@ prefix = args.prefix
 dir_path = args.dir_path
 ext = args.ext
 
-files = lib.filelib.get_file_list(dir_path, ext, True)
-
-for f in files:
-    new_path = os.path.join(dir_path, prefix + os.path.basename(f)) 
-    os.rename(f, new_path)
-    print("{} > {}".format(f, new_path))
+lib.filelib.add_prefix_batch(prefix, dir_path, ext)
