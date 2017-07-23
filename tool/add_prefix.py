@@ -4,6 +4,11 @@ import argparse
 
 import lib.filelib
 
+"""
+Add prefix to filename of files at the directory with the extension.
+usage: python add_prefix.py prefix [dir_path] [ext]
+"""
+
 parser = argparse.ArgumentParser(
     description='Add prefix.',
     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -17,4 +22,4 @@ prefix = args.prefix
 dir_path = args.dir_path
 ext = args.ext
 
-lib.filelib.add_prefix_batch(prefix, dir_path, ext)
+lib.filelib.add_prefix_suffix_batch(prefix, '', dir_path, ext)

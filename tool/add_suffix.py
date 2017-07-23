@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
 
 import lib.filelib
+
+"""
+Add suffix to filename of files at the directory with the extension.
+usage: python add_suffix.py suffix [dir_path] [ext]
+"""
 
 parser = argparse.ArgumentParser(
     description='Add suffix.',
@@ -18,10 +22,4 @@ suffix = args.suffix
 dir_path = args.dir_path
 ext = args.ext
 
-files = lib.filelib.get_file_list(dir_path, ext, True)
-
-for f in files:
-    root, ext = os.path.splitext(f)
-    new_path = root + suffix + ext
-    os.rename(f, new_path)
-    print("{} > {}".format(f, new_path))
+lib.filelib.add_prefix_suffix_batch('', suffix, dir_path, ext)
