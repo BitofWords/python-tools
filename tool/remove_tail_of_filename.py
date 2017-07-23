@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
 
 import lib.filelib
+
+"""
+Remove tail of filename of files at the directory with the extension.
+usage: python remove_tail_of_filename.py [-h] num [dir_path] [ext]
+"""
 
 parser = argparse.ArgumentParser(
     description='Remove tail of filename.',
@@ -18,23 +22,4 @@ remove_num = args.num
 dir_path = args.dir_path
 ext = args.ext
 
-files = lib.filelib.get_file_list(dir_path, ext, True)
-
-change_list = []
-
-for f in files:
-    base, ext = os.path.splitext(f)
-    base = base[:-remove_num]
-    change_list.append([f, base + ext])
-    print("{} > {}".format(f, base + ext))
-
-if len(change_list) == 0:
-    print('no file')
-else:
-    answer = input("yes? ")
-    if answer in ["y", "yes"]:
-        for change in change_list:
-            os.rename(change[0], change[1])
-        print("done")
-    else:
-        print("skip")
+lib.filelib.remove_head_tail_batch(0, remove_num, dir_path, ext)

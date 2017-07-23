@@ -64,9 +64,39 @@ def rename_without_confirm(org_and_new_path_list):
     print("done")
 
 
+def rename_batch(get_new_path_func, dir_path='.', ext='*', is_confirm=True, **kwargs):
+    """
+    Rename filename of files at the directory with the extension.
+
+    Args:
+    - get_new_path_func (function): Function for getting new path.
+    - dir_path (str): Directory path.
+    - ext (str): Extension. Both include and exclude comma are OK.
+    - is_confirm (bool): Confirm or not.
+    - kwargs: Keyword args for get_new_path_func.
+
+    Returns:
+    - None
+    """
+    files = get_file_list(dir_path, ext, True)
+    if len(files) == 0:
+        sys.exit('no file')
+
+    org_and_new_path_list = []
+    for f in files:
+        new_path = get_new_path_func(f, **kwargs)
+        org_and_new_path_list.append([f, new_path])
+        print("{} > {}".format(f, new_path))
+
+    if is_confirm:
+        rename_with_confirm(org_and_new_path_list)
+    else:
+        rename_without_confirm(org_and_new_path_list)
+
+
 def get_prefix_suffix_added_path(org_path, prefix='', suffix=''):
     """
-    Get prefix or/and suffix added path.
+    Get path added prefix or/and suffix .
 
     Args:
     - org_path (str): Original path.
@@ -78,8 +108,7 @@ def get_prefix_suffix_added_path(org_path, prefix='', suffix=''):
     """
 
     dirname = os.path.dirname(org_path)
-    basename = os.path.basename(org_path)
-    root, ext = os.path.splitext(basename)
+    root, ext = os.path.splitext(os.path.basename(org_path))
     new_path = os.path.join(dirname, prefix + root + suffix + ext)
     return new_path
 
@@ -92,14 +121,10 @@ def add_prefix_suffix(org_path, prefix='', suffix=''):
     - org_path (str): Original path.
     - prefix (str): String of prefix.
     - suffix (str): String of suffix.
-
-    Returns:
-    - new_path (str): Path with prefix or/and suffix.
     """
 
     new_path = get_prefix_suffix_added_path(org_path, prefix, suffix)
     os.rename(org_path, new_path)
-    return new_path
 
 
 def add_prefix_suffix_batch(prefix='', suffix='', dir_path='.', ext='*', is_confirm=True):
@@ -111,22 +136,63 @@ def add_prefix_suffix_batch(prefix='', suffix='', dir_path='.', ext='*', is_conf
     - suffix (str): String of suffix.
     - dir_path (str): Directory path.
     - ext (str): Extension. Both include and exclude comma are OK.
+    - is_confirm (bool): Confirm or not.
 
     Returns:
     - None
     """
 
-    files = get_file_list(dir_path, ext, True)
-    if len(files) == 0:
-        sys.exit('no file')
+    rename_batch(get_prefix_suffix_added_path, dir_path, ext, is_confirm, **{'prefix': prefix, 'suffix': suffix})
 
-    org_and_new_path_list = []
-    for f in files:
-        new_path = get_prefix_suffix_added_path(f, prefix, suffix)
-        org_and_new_path_list.append([f, new_path])
-        print("{} > {}".format(f, new_path))
 
-    if is_confirm:
-        rename_with_confirm(org_and_new_path_list)
+def get_head_tail_removed_path(org_path, head=0, tail=0):
+    """
+    Get path removed head or/and tail of filename.
+
+    Args:
+    - org_path (str): Original path.
+    - head (int): Number of removed char from head of filename.
+    - tail (int): Number of removed char from tail of filename.
+
+    Returns:
+    - new_path (str): Path removed head or/and tail.
+    """
+
+    dirname = os.path.dirname(org_path)
+    root, ext = os.path.splitext(os.path.basename(org_path))
+    if tail > 0:
+        new_path = os.path.join(dirname, root[head: -tail] + ext)
     else:
-        rename_without_confirm(org_and_new_path_list)
+        new_path = os.path.join(dirname, root[head:] + ext)
+    return new_path
+
+
+def remove_head_tail(org_path, head=0, tail=0):
+    """
+    Remove head or/and tail of filename.
+
+    Args:
+    - org_path (str): Original path.
+    - head (int): Number of removed char from head of filename.
+    - tail (int): Number of removed char from tail of filename.
+    """
+
+    new_path = get_head_tail_removed_path(org_path, head, tail)
+    os.rename(org_path, new_path)
+
+
+def remove_head_tail_batch(head=0, tail=0, dir_path='.', ext='*', is_confirm=True):
+    """
+    Remove head or/and tail of filename of files at the directory with the extension.
+
+    Args:
+    - head (int): Number of removed char from head of filename.
+    - tail (int): Number of removed char from tail of filename.
+    - dir_path (str): Directory path.
+    - ext (str): Extension. Both include and exclude comma are OK.
+    - is_confirm (bool): Confirm or not.
+
+    Returns:
+    - None
+    """
+    rename_batch(get_head_tail_removed_path, dir_path, ext, is_confirm, **{'head': head, 'tail': tail})
