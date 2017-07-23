@@ -96,7 +96,7 @@ def rename_batch(get_new_path_func, dir_path='.', ext='*', is_confirm=True, **kw
 
 def get_prefix_suffix_added_path(org_path, prefix='', suffix=''):
     """
-    Get path added prefix or/and suffix .
+    Get path added prefix or/and suffix.
 
     Args:
     - org_path (str): Original path.
@@ -196,3 +196,52 @@ def remove_head_tail_batch(head=0, tail=0, dir_path='.', ext='*', is_confirm=Tru
     - None
     """
     rename_batch(get_head_tail_removed_path, dir_path, ext, is_confirm, **{'head': head, 'tail': tail})
+
+
+def get_replaced_path(org_path, old, new):
+    """
+    Get replaced path.
+
+    Args:
+    - org_path (str): Original path.
+    - old (str): Old string to replace.
+    - new (str): New string to replace.
+
+    Returns:
+    - new_path (str):  Replaced path.
+    """
+
+    new_path = os.path.join(os.path.dirname(org_path), os.path.basename(org_path).replace(old, new))
+    return new_path
+
+
+def replace_filename(org_path, old, new):
+    """
+    Replace filename.
+
+    Args:
+    - org_path (str): Original path.
+    - old (str): Old string to replace.
+    - new (str): New string to replace.
+    """
+
+    new_path = get_replaced_path(org_path, old, new)
+    os.rename(org_path, new_path)
+
+
+def replace_filename_batch(old, new, dir_path='.', ext='*', is_confirm=True):
+    """
+    Replace filename of files at the directory with the extension.
+
+    Args:
+    - old (str): Old string to replace.
+    - new (str): New string to replace.
+    - dir_path (str): Directory path.
+    - ext (str): Extension. Both include and exclude comma are OK.
+    - is_confirm (bool): Confirm or not.
+
+    Returns:
+    - None
+    """
+
+    rename_batch(get_replaced_path, dir_path, ext, is_confirm, **{'old': old, 'new': new})
