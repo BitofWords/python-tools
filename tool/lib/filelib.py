@@ -15,6 +15,9 @@ def get_file_list(dir_path, ext="*", is_full_path=False):
     - (list of str): List of paths.
     """
 
+    if ext[0] == '.':
+        ext = ext[1:]
+
     files = glob.glob(os.path.join(dir_path, "*.{}".format(ext)))
 
     if is_full_path:
