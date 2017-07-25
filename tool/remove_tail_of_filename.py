@@ -18,8 +18,4 @@ parser.add_argument('ext', help='extension', nargs='?', default='*')
 
 args = parser.parse_args()
 
-remove_num = args.num
-dir_path = args.dir_path
-ext = args.ext
-
-lib.filelib.remove_head_tail_batch(0, remove_num, dir_path, ext)
+lib.filelib.remove_head_tail_batch(0, args.num, args.dir_path, args.ext)

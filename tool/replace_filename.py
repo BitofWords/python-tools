@@ -19,9 +19,5 @@ parser.add_argument('ext', help='extension', nargs='?', default='*')
 
 args = parser.parse_args()
 
-old = args.old_str
-new = args.new_str
-dir_path = args.dir_path
-ext = args.ext
-
-lib.filelib.replace_filename_batch(old, new, dir_path, ext)
+lib.filelib.replace_filename_batch(args.old_str, args.new_str,
+                                   args.dir_path, args.ext)

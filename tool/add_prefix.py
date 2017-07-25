@@ -18,8 +18,5 @@ parser.add_argument('ext', help='extension', nargs='?', default='*')
 
 args = parser.parse_args()
 
-prefix = args.prefix
-dir_path = args.dir_path
-ext = args.ext
-
-lib.filelib.add_prefix_suffix_batch(prefix, '', dir_path, ext, False)
+lib.filelib.add_prefix_suffix_batch(args.prefix, '', args.dir_path,
+                                    args.ext, False)
