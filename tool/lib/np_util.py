@@ -38,3 +38,20 @@ def expand_canvas(src_array, dst_width, dst_height, src_pos_x=0, src_pos_y=0):
     dst_array = np.zeros((dst_height, dst_width, src_channel), dtype=src_array.dtype)
     dst_array[src_pos_y:src_pos_y+src_height, src_pos_x:src_pos_x+src_width] = src_array
     return dst_array
+
+
+def get_gradation_2d(start, stop, width, height, is_horizontal):
+    if is_horizontal:
+        return np.tile(np.linspace(start, stop, width), (height, 1))
+    else:
+        return np.tile(np.linspace(start, stop, height), (width, 1)).T
+
+
+def get_gradation_3d(width, height, start, stop, is_horizontal, dtype):
+    channel_num = len(start)
+    result = np.zeros((height, width, channel_num), dtype=np.float)
+
+    for i in range(channel_num):
+        result[:, :, i] = get_gradation_2d(start[i], stop[i], width, height, is_horizontal[i])
+
+    return result.astype(dtype)
