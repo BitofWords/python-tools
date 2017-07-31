@@ -29,6 +29,10 @@ def make_simple_python(dir_path='.'):
         pytyon_file_path = os.path.splitext(f)[0] + '.py'
         with open(pytyon_file_path, 'r+') as py:
             lines = py.readlines()
+            new_lines = []
+            for l in lines:
+                if not l.strip() == '#':
+                    new_lines.append(l)
             py.seek(0)
-            py.writelines(lines[1:])
+            py.writelines(new_lines[1:])
             py.truncate()
