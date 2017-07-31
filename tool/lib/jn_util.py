@@ -26,3 +26,9 @@ def make_simple_python(dir_path='.'):
             ),
             shell=True
         )
+        pytyon_file_path = os.path.splitext(f)[0] + '.py'
+        with open(pytyon_file_path, 'r+') as py:
+            lines = py.readlines()
+            py.seek(0)
+            py.writelines(lines[1:])
+            py.truncate()
