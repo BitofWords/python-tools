@@ -1,10 +1,14 @@
 import subprocess
 import os
+import sys
 import glob
 
+sys.path.insert(0, os.path.dirname(__file__))
+import filelib
 
-def restart_and_run_all(dir_path='.'):
-    files = glob.glob('{}/*.ipynb'.format(dir_path))
+
+def restart_and_run_all(path='.'):
+    files = filelib.get_file_list(path, '.ipynb', True)
     for f in files:
         print(f)
         subprocess.run(
@@ -15,8 +19,8 @@ def restart_and_run_all(dir_path='.'):
         )
 
 
-def make_simple_python(dir_path='.'):
-    files = glob.glob('{}/*.ipynb'.format(dir_path))
+def make_simple_python(path='.'):
+    files = filelib.get_file_list(path, '.ipynb', True)
     template_path = os.path.join(os.path.dirname(__file__), 'simple_python.tpl')
     for f in files:
         print(f)
