@@ -3,28 +3,34 @@ import sys
 import glob
 
 
-def get_file_list(dir_path, ext="*", is_full_path=False):
+def get_file_list(path, ext="*", is_full_path=False):
     """
     Return the list of file paths.
 
     Args:
-    - dir_path (str): Directory path.
+    - path (str): Directory or file path.
     - ext (str): Extension. Both include and exclude comma are OK.
     - is_full_path (bool):Return full pash if True, only filename if False.
 
     Returns:
     - (list of str): List of paths.
+        - if path is file, return [path].
     """
 
-    if ext[0] == '.':
-        ext = ext[1:]
+    if os.path.isdir(path):
+        if ext[0] == '.':
+            ext = ext[1:]
 
-    files = glob.glob(os.path.join(dir_path, "*.{}".format(ext)))
+        files = glob.glob(os.path.join(path, "*.{}".format(ext)))
 
-    if is_full_path:
-        return files
+        if is_full_path:
+            return files
+        else:
+            return [os.path.basename(f) for f in files]
+    elif os.path.isfile(path):
+        return [path]
     else:
-        return [os.path.basename(f) for f in files]
+        return []
 
 
 def rename_with_confirm(org_and_new_path_list):
