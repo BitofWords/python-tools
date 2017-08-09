@@ -2,7 +2,7 @@
 
 import argparse
 
-import lib.jn_util
+import lib.jnlib
 
 """
 Make python files from jupyter notebook files.
@@ -15,4 +15,4 @@ parser = argparse.ArgumentParser(
 parser.add_argument('dir_path', help='directory path', nargs='?', default='.')
 
 args = parser.parse_args()
-lib.jn_util.make_simple_python(args.dir_path)
+lib.jnlib.make_simple_python(args.dir_path)

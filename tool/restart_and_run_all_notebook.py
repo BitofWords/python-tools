@@ -2,7 +2,7 @@
 
 import argparse
 
-import lib.jn_util
+import lib.jnlib
 
 """
 Restart and run all jupyter notebook files.
@@ -15,4 +15,4 @@ parser = argparse.ArgumentParser(
 parser.add_argument('dir_path', help='directory path', nargs='?', default='.')
 
 args = parser.parse_args()
-lib.jn_util.restart_and_run_all(args.dir_path)
+lib.jnlib.restart_and_run_all(args.dir_path)
