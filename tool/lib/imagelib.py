@@ -21,3 +21,9 @@ def save_gradation_img(width, height, start_color, stop_color, is_horizontal, pa
                                (is_horizontal, is_horizontal, is_horizontal),
                                'uint8')
     save_ndarray_as_img(a, path, **kwargs)
+
+
+def expand_canvas(src_pil, dst_width, dst_height, pos_x=0, pos_y=0, r=0, g=0, b=0):
+    canvas = Image.new('RGB', (dst_width, dst_height), (r, g, b))
+    canvas.paste(src_pil, (pos_x, pos_y))
+    return canvas
