@@ -27,3 +27,21 @@ def expand_canvas(src_pil, dst_width, dst_height, pos_x=0, pos_y=0, r=0, g=0, b=
     canvas = Image.new('RGB', (dst_width, dst_height), (r, g, b))
     canvas.paste(src_pil, (pos_x, pos_y))
     return canvas
+
+
+def expand_canvas_square(src_pil, dst_width, r=0, g=0, b=0):
+    width, height = src_pil.size
+    if width > height:
+        new_width = dst_width
+        new_height = int(height * dst_width / width)
+        pos_x = 0
+        pos_y = int((dst_width - new_height) / 2)
+    else:
+        new_height = dst_width
+        new_width = int(width + dst_width / height)
+        pos_x = int((dst_width - new_width) / 2)
+        pos_y = 0
+    resized_src_pil = src_pil.resize((new_width, new_height), Image.BICUBIC)
+    dst_pil = expand_canvas(
+        resized_src_pil, dst_width, dst_width, pos_x, pos_y, r, g, b)
+    return dst_pil
