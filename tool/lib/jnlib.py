@@ -19,18 +19,18 @@ def restart_and_run_all(path='.'):
         )
 
 
-def make_simple_python(path='.'):
+def make_simple(path='.', output_format='python', ext='.py'):
     files = filelib.get_file_list(path, '.ipynb', True)
     template_path = os.path.join(os.path.dirname(__file__), 'simple_python.tpl')
     for f in files:
         print(f)
         subprocess.run(
-            'jupyter nbconvert --to python {} --template {}'.format(
-                f, template_path
+            'jupyter nbconvert --to {} {} --template {}'.format(
+                output_format, f, template_path
             ),
             shell=True
         )
-        pytyon_file_path = os.path.splitext(f)[0] + '.py'
+        pytyon_file_path = os.path.splitext(f)[0] + ext
         with open(pytyon_file_path, 'r+') as py:
             lines = py.readlines()
             new_lines = []
@@ -40,3 +40,11 @@ def make_simple_python(path='.'):
             py.seek(0)
             py.writelines(new_lines[1:])
             py.truncate()
+
+
+def make_simple_python(path='.'):
+    make_simple(path)
+
+
+def make_simple_shell(path='.'):
+    make_simple(path, 'script', '.sh')

@@ -1,8 +1,8 @@
 {%- extends 'null.tpl' -%}
 
 {%- block input %}
-{{ cell.source | ipython2python }}
-{%- endblock input %}
+{{ cell.source }}
+{% endblock input %}
 
 {% block output -%}
 {% if 'text/plain' in output.data -%}
