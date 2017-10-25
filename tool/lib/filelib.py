@@ -3,14 +3,15 @@ import sys
 import glob
 
 
-def get_file_list(path, ext="*", is_full_path=False):
+def get_file_list(path, ext="*", is_full_path=False, recursive=False):
     """
     Return the list of file paths.
 
     Args:
     - path (str): Directory or file path.
     - ext (str): Extension. Both include and exclude comma are OK.
-    - is_full_path (bool):Return full pash if True, only filename if False.
+    - is_full_path (bool): Return full pash if True, only filename if False.
+    - recursive (bool)
 
     Returns:
     - (list of str): List of paths.
@@ -21,7 +22,12 @@ def get_file_list(path, ext="*", is_full_path=False):
         if ext[0] == '.':
             ext = ext[1:]
 
-        files = glob.glob(os.path.join(path, "*.{}".format(ext)))
+        files = []
+        if recursive:
+            for root, ds, fs in os.walk(path):
+                files.extend([os.path.join(root, f) for f in fs if os.path.splitext(f)[1][1:] == ext])
+        else:
+            files = glob.glob(os.path.join(path, "*.{}".format(ext)))
 
         if is_full_path:
             return files
