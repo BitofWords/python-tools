@@ -31,3 +31,45 @@ def ghcode(url, start=1, end=0):
     sliced_lines.append('```')
 
     return '\n'.join(sliced_lines)
+
+
+def make_breadcrumb_jsonld(urls, names):
+    base = '''<script type="application/ld+json">
+{{
+    "@context": "http://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement":
+    [
+        {}
+    ]
+}}
+</script>'''
+
+    item = '''{{
+            "@type": "ListItem",
+            "position": {},
+            "item":
+            {{
+            "@id": "https:{}",
+            "name": "{}"
+            }}
+        }}'''
+
+    items = []
+    for i, (url, name) in enumerate(zip(urls, names)):
+        items.append(item.format(i + 1, url, name))
+    return base.format(',\n'.join(items))
+
+
+def make_breadcrumb_list(urls, names, last_name=''):
+    base = '''<ol class="breadcrumb">
+    {}
+</ol>'''
+
+    item = '<li><a href="{}">{}</a></li>'
+    items = []
+    for url, name in zip(urls, names):
+        items.append(item.format(url, name))
+    if last_name:
+        items.append('<li>{}</li>'.format(last_name))
+    return base.format('\n'.join(items))
