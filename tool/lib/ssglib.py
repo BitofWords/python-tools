@@ -75,7 +75,7 @@ def get_breadcrumb_jsonld_dict(urls, names):
 
 
 def get_breadcrumb_list(urls, names, last_name=''):
-    base = '''<ol class="breadcrumb">
+    base = '''<ol id="breadcrumb">
     {}
 </ol>'''
 
