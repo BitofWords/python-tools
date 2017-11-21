@@ -21,3 +21,7 @@ def trim_text_with_east_asian_width_count(text, max_count):
         if count > max_count:
             return text[:i]
     return text
+
+
+def get_list_from_comma_separated_str(s):
+    return [x.strip() for x in s.split(',') if not x == '']
