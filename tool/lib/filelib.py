@@ -259,8 +259,7 @@ def replace_filename_batch(old, new, dir_path='.', ext='*', is_confirm=True):
     rename_batch(get_replaced_path, dir_path, ext, is_confirm, **{'old': old, 'new': new})
 
 
-def save_file_at_new_dir(new_dir_path, new_filename, new_file_content):
-    if not os.path.exists(new_dir_path):
-        os.makedirs(new_dir_path)
-    with open(os.path.join(new_dir_path, new_filename), 'w') as f:
+def save_file_at_new_dir(new_dir_path, new_filename, new_file_content, mode='w'):
+    os.makedirs(new_dir_path, exist_ok=True)
+    with open(os.path.join(new_dir_path, new_filename), mode) as f:
         f.write(new_file_content)
