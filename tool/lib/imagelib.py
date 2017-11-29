@@ -16,10 +16,8 @@ def save_ndarray_as_img(array, path, **kwargs):
     Image.fromarray(np.uint8(array)).save(path, **kwargs)
 
 
-def save_gradation_img(width, height, start_color, stop_color, is_horizontal, path='gradation.bmp', **kwargs):
-    a = nplib.get_gradation_3d(width, height, start_color, stop_color,
-                               (is_horizontal, is_horizontal, is_horizontal),
-                               'uint8')
+def save_gradation_img(width, height, start_color, stop_color, is_horizontal_list, path='gradation.bmp', **kwargs):
+    a = nplib.get_gradation_3d(width, height, start_color, stop_color, is_horizontal_list, 'uint8')
     save_ndarray_as_img(a, path, **kwargs)
 
 
