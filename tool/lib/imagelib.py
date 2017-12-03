@@ -77,10 +77,4 @@ def crop_center(pil_img, crop_width, crop_height):
 
 
 def crop_max_square(pil_img):
-    width, height = pil_img.size
-    if width == height:
-        return pil_img
-    elif width > height:
-        return crop_center(pil_img, height, height)
-    else:
-        return crop_center(pil_img, width, width)
+    return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
