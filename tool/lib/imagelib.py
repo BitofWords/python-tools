@@ -2,7 +2,7 @@ import sys
 import os
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFilter
 
 sys.path.insert(0, os.path.dirname(__file__))
 import nplib
@@ -78,3 +78,28 @@ def crop_center(pil_img, crop_width, crop_height):
 
 def crop_max_square(pil_img):
     return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
+
+
+def mask_circle_solid(pil_img, background_color, blur_radius, offset=0):
+    background = Image.new(pil_img.mode, pil_img.size, background_color)
+    
+    offset = blur_radius * 2 + offset
+    mask = Image.new("L", pil_img.size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((offset, offset, pil_img.size[0] - offset, pil_img.size[1] - offset), fill=255)
+    mask = mask.filter(ImageFilter.GaussianBlur(blur_radius))
+    
+    return Image.composite(pil_img, background, mask)
+
+
+def mask_circle_transparent(pil_img, blur_radius, offset=0):
+    offset = blur_radius * 2 + offset
+    mask = Image.new("L", pil_img.size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((offset, offset, pil_img.size[0] - offset, pil_img.size[1] - offset), fill=255)
+    mask = mask.filter(ImageFilter.GaussianBlur(blur_radius))
+    
+    result = pil_img.copy()
+    result.putalpha(mask)
+    
+    return result
