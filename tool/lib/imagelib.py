@@ -45,24 +45,42 @@ def expand_canvas_square(src_pil, dst_width, r=0, g=0, b=0):
     return dst_pil
 
 
-def add_margin(im, top, right, bottom, left, color):
-    width, height = im.size
+def add_margin(pil_img, top, right, bottom, left, color):
+    width, height = pil_img.size
     new_width = width + right + left
     new_height = height + top + bottom
-    im_new = Image.new(im.mode, (new_width, new_height), color)
-    im_new.paste(im, (left, top))
-    return im_new
+    result = Image.new(pil_img.mode, (new_width, new_height), color)
+    result.paste(pil_img, (left, top))
+    return result
 
 
-def expand2square(im, background_color):
-    width, height = im.size
+def expand2square(pil_img, background_color):
+    width, height = pil_img.size
     if width == height:
-        return im
+        return pil_img
     elif width > height:
-        im_new = Image.new(im.mode, (width, width), background_color)
-        im_new.paste(im, (0, (width - height) // 2))
-        return im_new
+        result = Image.new(pil_img.mode, (width, width), background_color)
+        result.paste(pil_img, (0, (width - height) // 2))
+        return result
     else:
-        im_new = Image.new(im.mode, (height, height), background_color)
-        im_new.paste(im, ((height - width) // 2, 0))
-        return im_new
+        result = Image.new(pil_img.mode, (height, height), background_color)
+        result.paste(pil_img, ((height - width) // 2, 0))
+        return result
+
+
+def crop_center(pil_img, crop_width, crop_height):
+    img_width, img_height = pil_img.size
+    return pil_img.crop(((img_width - crop_width) // 2,
+                         (img_height - crop_height) // 2,
+                         (img_width + crop_width) // 2,
+                         (img_height + crop_height) // 2))
+
+
+def crop_max_square(pil_img):
+    width, height = pil_img.size
+    if width == height:
+        return pil_img
+    elif width > height:
+        return crop_center(pil_img, height, height)
+    else:
+        return crop_center(pil_img, width, width)
