@@ -43,3 +43,26 @@ def expand_canvas_square(src_pil, dst_width, r=0, g=0, b=0):
     dst_pil = expand_canvas(
         resized_src_pil, dst_width, dst_width, pos_x, pos_y, r, g, b)
     return dst_pil
+
+
+def add_margin(im, top, right, bottom, left, color):
+    width, height = im.size
+    new_width = width + right + left
+    new_height = height + top + bottom
+    im_new = Image.new(im.mode, (new_width, new_height), color)
+    im_new.paste(im, (left, top))
+    return im_new
+
+
+def expand2square(im, background_color):
+    width, height = im.size
+    if width == height:
+        return im
+    elif width > height:
+        im_new = Image.new(im.mode, (width, width), background_color)
+        im_new.paste(im, (0, (width - height) // 2))
+        return im_new
+    else:
+        im_new = Image.new(im.mode, (height, height), background_color)
+        im_new.paste(im, ((height - width) // 2, 0))
+        return im_new
