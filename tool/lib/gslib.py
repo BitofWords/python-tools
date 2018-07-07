@@ -5,7 +5,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 def gsheet2csv(keyfile_path, spreadheet_title, worksheet_name, csv_path):
-    scope = ['https://spreadsheets.google.com/feeds']
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/drive']
     credentials = ServiceAccountCredentials.from_json_keyfile_name(keyfile_path, scope)
     gc = gspread.authorize(credentials)
 
