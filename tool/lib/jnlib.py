@@ -34,6 +34,7 @@ def make_simple(path='.', output_format='python', ext='.py'):
         with open(pytyon_file_path, 'r+') as py:
             lines = py.readlines()
             new_lines = []
+            lines.append('')
             for i in range(len(lines) - 1):
                 if lines[i].strip() == '#':
                     if lines[i + 1].strip() == '':
